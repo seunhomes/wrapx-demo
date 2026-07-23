@@ -3,7 +3,8 @@
 Modern, dark, image-forward marketing site for **WRAPX** (professional car wrapping, Etobicoke / GTA).
 Static site — plain HTML/CSS/JS, no build step.
 
-- **Live demo:** _(GitHub Pages URL — added after deploy)_
+- **Live demo:** https://seunhomes.github.io/wrapx-demo/
+- **Status:** demo only — set to `noindex` and self-referential; **not** pointed at gtawrapx.com yet.
 - **Style reference:** sekanskin.com (black + Teko condensed headlines, image-forward)
 
 ## Files
@@ -53,6 +54,7 @@ widget (Trustindex, Elfsight or Behold) embed into `#reviewsWidget` in `index.ht
 
 ### Verify before launch
 - [ ] Confirm business **hours** (assumed Mon–Sat 10am–7pm from "Closes 7pm")
-- [ ] Swap `canonical`/OG URLs if the live domain differs from `gtawrapx.com`
+- [ ] **Going live:** switch `robots` meta to `index, follow, max-image-preview:large` and repoint
+      `canonical` / OG / JSON-LD `url` / `sitemap.xml` / `robots.txt` to the production domain
 - [ ] Replace studio placeholder images with real WRAPX build photos
 - [ ] Point the Google-reviews CTA at the exact Business Profile URL

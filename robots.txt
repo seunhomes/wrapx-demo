@@ -11,4 +11,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://www.gtawrapx.com/sitemap.xml
+Sitemap: https://seunhomes.github.io/wrapx-demo/sitemap.xml
