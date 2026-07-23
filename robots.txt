@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# AI / GEO crawlers welcome
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.gtawrapx.com/sitemap.xml
