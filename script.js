@@ -16,6 +16,24 @@ const SITE = {
 };
 const LOCATION_ID = "yvbhY9lzSbHoq48QIOi5";
 
+/* ===== Always open at the top =====
+   Mobile browsers restore the previous scroll position, and late-loading
+   embeds (Instagram/video) shift layout — both can land you mid-page. */
+(function startAtTop() {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toTop = () => {
+    if (location.hash) return; // respect real anchor links
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';   // bypass smooth-scroll
+    window.scrollTo(0, 0);
+    html.style.scrollBehavior = prev;
+  };
+  toTop();
+  document.addEventListener('DOMContentLoaded', toTop);
+  window.addEventListener('load', toTop);
+})();
+
 /* ===== Nav: solid on scroll ===== */
 const nav = document.getElementById('nav');
 const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);

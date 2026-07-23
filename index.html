@@ -122,7 +122,7 @@
     </nav>
     <div class="nav__cta">
       <a href="tel:+16472485965" class="nav__phone">647-248-5965</a>
-      <a href="#book" class="btn btn--sm" data-book-open>Book a Service</a>
+      <a href="#book" class="btn btn--sm" data-book-open><span class="hide-sm">Book a Service</span><span class="only-sm">Book</span></a>
     </div>
     <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
@@ -145,8 +145,14 @@
       <a href="#services" class="btn btn--ghost">Explore Services</a>
     </div>
     <div class="hero__stats reveal">
-      <a href="#reviews" class="stat-link"><strong>5.0&#9733;</strong><span>Google rating &rsaquo;</span></a>
-      <a href="#reviews" class="stat-link"><strong>68</strong><span>Google reviews &rsaquo;</span></a>
+      <a href="#reviews" class="rating-btn" aria-label="Rated 5.0 out of 5 from 68 Google reviews — read the reviews">
+        <span class="rating-btn__score">5.0</span>
+        <span class="rating-btn__meta">
+          <span class="rating-btn__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span class="rating-btn__label">68 Google reviews</span>
+        </span>
+        <span class="rating-btn__arrow" aria-hidden="true">&rsaquo;</span>
+      </a>
       <div><strong>GTA</strong><span>Toronto &amp; beyond</span></div>
     </div>
   </div>
