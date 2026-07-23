@@ -249,11 +249,12 @@ function renderBooker(mount) {
 const form = document.getElementById('leadForm');
 const hint = document.getElementById('formHint');
 function showHint(msg, ok = true) {
+  if (!hint) return;
   hint.textContent = msg;
   hint.style.color = ok ? 'var(--a1)' : '#ff6b6b';
   hint.hidden = false;
 }
-form.addEventListener('submit', async (e) => {
+if (form) form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!form.reportValidity()) return;
   const data = Object.fromEntries(new FormData(form).entries());
@@ -322,4 +323,5 @@ form.addEventListener('submit', async (e) => {
 })();
 
 /* ===== Year ===== */
-document.getElementById('year').textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
