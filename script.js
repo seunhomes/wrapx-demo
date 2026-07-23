@@ -21,18 +21,56 @@ const LOCATION_ID = "yvbhY9lzSbHoq48QIOi5";
    embeds (Instagram/video) shift layout — both can land you mid-page. */
 (function startAtTop() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  // Stop correcting the moment the visitor actually interacts.
+  window.__wrapxUserMoved = false;
+  const markMoved = () => { window.__wrapxUserMoved = true; };
+  ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown'].forEach(ev =>
+    window.addEventListener(ev, markMoved, { passive: true, once: true })
+  );
+
+  // Drop any leftover #hash (from earlier in-page nav) so reopening a tab
+  // never restores to the middle of the page.
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+
   const toTop = () => {
-    if (location.hash) return; // respect real anchor links
+    if (window.__wrapxUserMoved) return;     // respect user intent
+    if (window.scrollY === 0) return;
     const html = document.documentElement;
     const prev = html.style.scrollBehavior;
-    html.style.scrollBehavior = 'auto';   // bypass smooth-scroll
+    html.style.scrollBehavior = 'auto';     // bypass smooth-scroll
     window.scrollTo(0, 0);
     html.style.scrollBehavior = prev;
   };
+
   toTop();
   document.addEventListener('DOMContentLoaded', toTop);
-  window.addEventListener('load', toTop);
+  window.addEventListener('load', () => {
+    toTop();
+    // Keep correcting (~3s) while late embeds/images settle and reflow the page.
+    let ticks = 0;
+    const id = setInterval(() => {
+      toTop();
+      if (++ticks > 12 || window.__wrapxUserMoved) clearInterval(id);
+    }, 250);
+  });
+  // Restoring from bfcache (iOS Safari reopening a tab) — load/DOMContentLoaded never re-fire.
+  window.addEventListener('pageshow', (e) => { if (e.persisted) toTop(); });
 })();
+
+/* ===== In-page links: scroll smoothly, but never leave a #hash in the URL ===== */
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a || a.hasAttribute('data-book-open')) return; // modal buttons handle themselves
+  const id = a.getAttribute('href').slice(1);
+  if (!id) return;
+  const target = document.getElementById(id);
+  if (!target) return;
+  e.preventDefault();
+  window.__wrapxUserMoved = true; // don't let the start-at-top guard yank it back
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  history.replaceState(null, '', location.pathname + location.search);
+});
 
 /* ===== Nav: solid on scroll ===== */
 const nav = document.getElementById('nav');
@@ -261,12 +299,26 @@ form.addEventListener('submit', async (e) => {
 
 /* ===== Instagram embeds (portfolio feed) ===== */
 (function loadInstagram() {
-  if (!document.querySelector('.instagram-media')) return;
-  const s = document.createElement('script');
-  s.src = 'https://www.instagram.com/embed.js';
-  s.async = true;
-  s.onload = () => window.instgrm && window.instgrm.Embeds.process();
-  document.body.appendChild(s);
+  const grid = document.querySelector('.ig-grid');
+  if (!grid || !document.querySelector('.instagram-media')) return;
+
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    const s = document.createElement('script');
+    s.src = 'https://www.instagram.com/embed.js';
+    s.async = true;
+    s.onload = () => window.instgrm && window.instgrm.Embeds.process();
+    document.body.appendChild(s);
+  };
+
+  // Only load the (heavy) embeds as the portfolio comes into view, so they
+  // never reflow the page while the visitor is still up at the hero.
+  const obs = new IntersectionObserver((entries) => {
+    if (entries.some(e => e.isIntersecting)) { start(); obs.disconnect(); }
+  }, { rootMargin: '600px 0px' });
+  obs.observe(grid);
 })();
 
 /* ===== Year ===== */
