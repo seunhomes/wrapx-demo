@@ -122,7 +122,7 @@
     </nav>
     <div class="nav__cta">
       <a href="tel:+16472485965" class="nav__phone">647-248-5965</a>
-      <a href="#book" class="btn btn--sm">Book a Service</a>
+      <a href="#book" class="btn btn--sm" data-book-open>Book a Service</a>
     </div>
     <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
@@ -141,7 +141,7 @@
     <h1 class="hero__title reveal">Turn your vehicle<br />into a <span class="grad">masterpiece</span></h1>
     <p class="hero__sub reveal">Professional car wraps, paint protection film, ceramic tint and commercial graphics — installed with obsessive precision in Toronto's west end.</p>
     <div class="hero__actions reveal">
-      <a href="#book" class="btn">Book Your Build</a>
+      <a href="#book" class="btn" data-book-open>Book Your Build</a>
       <a href="#services" class="btn btn--ghost">Explore Services</a>
     </div>
     <div class="hero__stats reveal">
@@ -349,8 +349,12 @@
         <li><span>Hours</span><span class="book__hours">Mon–Sat &middot; 10am–7pm</span></li>
       </ul>
     </div>
-    <div class="book__cal">
-      <div id="ghlCalendar" class="ghl-embed"></div>
+    <div class="book__cta-card reveal">
+      <span class="book__cta-badge">Fast &amp; easy</span>
+      <h3>Book in 30 seconds</h3>
+      <p>Pick a day and time that works for you — we'll reach out to confirm your appointment.</p>
+      <button type="button" class="btn btn--full" data-book-open>Click here to book a time slot &rarr;</button>
+      <span class="book__cta-or">Prefer to talk first? Call or text <a href="tel:+16472485965">647-248-5965</a></span>
     </div>
   </div>
 </section>
@@ -420,7 +424,7 @@
     <div class="foot__col">
       <h4>Follow</h4>
       <a href="https://www.instagram.com/gtawrapx/" target="_blank" rel="noopener">Instagram</a>
-      <a href="#book">Book a Service</a>
+      <a href="#book" data-book-open>Book a Service</a>
       <a href="#quote">Get a Quote</a>
     </div>
   </div>
@@ -431,6 +435,20 @@
 </footer>
 
 <a href="tel:+16472485965" class="callfab" aria-label="Call WRAPX">Call</a>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="modal" id="bookModal" hidden>
+  <div class="modal__backdrop" data-book-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Book an appointment" tabindex="-1">
+    <button type="button" class="modal__close" data-book-close aria-label="Close">&times;</button>
+    <div class="modal__head">
+      <p class="eyebrow">Book your install</p>
+      <h3>Pick a time slot</h3>
+      <p class="modal__sub">Choose a day and time — we'll reach out to confirm your appointment.</p>
+    </div>
+    <div id="ghlCalendar" class="ghl-embed"></div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>

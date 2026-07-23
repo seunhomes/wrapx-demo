@@ -218,6 +218,29 @@ form.addEventListener('submit', async (e) => {
   btn.disabled = false; btn.textContent = 'Request My Quote';
 });
 
+/* ===== Booking modal ===== */
+(function bookingModal() {
+  const modal = document.getElementById('bookModal');
+  if (!modal) return;
+  const panel = modal.querySelector('.modal__panel');
+  let lastFocus = null;
+  const open = (e) => {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    panel.focus();
+  };
+  const close = () => {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  };
+  document.querySelectorAll('[data-book-open]').forEach(b => b.addEventListener('click', open));
+  modal.querySelectorAll('[data-book-close]').forEach(b => b.addEventListener('click', close));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+})();
+
 /* ===== Instagram embeds (portfolio feed) ===== */
 (function loadInstagram() {
   if (!document.querySelector('.instagram-media')) return;
